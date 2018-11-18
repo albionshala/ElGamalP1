@@ -12,6 +12,7 @@ namespace P1ElGamal
         protected int block_size;
         protected int plaintext_blocksize;
         protected int ciphertext_blocksize;
+
         protected ElGamalKeyStruct current_key;
 
         protected abstract byte[] ProcessDataBlock(byte[] plaintext_data_block);
@@ -23,21 +24,15 @@ namespace P1ElGamal
             current_key = elg_current_key;
 
             // calculate the blocksizes
-            //remember that the length of the key modulus affects the amount of data that can be processed by the
-            //encryption function in one go
-
-            //ElGamal encryption function produces ciphertext that is twice the size of the corresponding plaintext
             plaintext_blocksize = (elg_current_key.P.bitCount() - 1) / 8;
-            ciphertext_blocksize = ((elg_current_key.P.bitCount() + 7) / 8) * 2;
+            ciphertext_blocksize = ((elg_current_key.P.bitCount() + 7) / 8) * 2; //ciphertext is twice as plaintext
 
-            // set the default block for plaintext, which is suitable for encryption
+            // set the default block for plaintext
             block_size = plaintext_blocksize;
         }
 
         public byte[] ProcessData(byte[] data)
         {
-
-            //create a stream backed by a memory array
             MemoryStream stream = new MemoryStream();
 
             // calulate how many complete blocks

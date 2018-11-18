@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
 using System.Security.Cryptography;
 
 
@@ -17,23 +14,23 @@ namespace P1ElGamal
             public BigInteger X;
         }
 
-        // instance variable to present current key in use
+        //current key in use
         private ElGamalKeyStruct current_key;
 
         public ImplementationClass()
         {
             
             current_key = new ElGamalKeyStruct();
-            // set all of the big integers to zero as a starting point
+            
             current_key.P = new BigInteger(0);
             current_key.G = new BigInteger(0);
             current_key.Y = new BigInteger(0);
             current_key.X = new BigInteger(0);
 
-            //set default key size 
-            KeySizeValue = 1024;
+            // default key size
+            KeySizeValue = 384;
 
-            // set the range of legal keys
+            //range of keys
             LegalKeySizesValue = new[] { new KeySizes(384, 1088, 8) };
         }
         
@@ -42,14 +39,14 @@ namespace P1ElGamal
             // create the random number
             Random random_number = new Random();
 
+            current_key.X = new BigInteger();
+            current_key.G = new BigInteger();
+
             // create the large prime number, P  bits/confidence/random
             current_key.P = BigInteger.genPseudoPrime(key_strength, 16, random_number);
 
             // create the two random numbers, which are smaller than P
-            current_key.X = new BigInteger();
             current_key.X.genRandomBits(key_strength - 1, random_number);
-
-            current_key.G = new BigInteger();
             current_key.G.genRandomBits(key_strength - 1, random_number);
 
             // compute Y modPow(exp, modulo) Y = GexpX modP
@@ -82,10 +79,11 @@ namespace P1ElGamal
 
         public override void ImportParameters(ElGamalParameters p_parameters)
         {
-            // obtain the  big integer values from the byte parameter values
+          
             current_key.P = new BigInteger(p_parameters.P);
             current_key.G = new BigInteger(p_parameters.G);
             current_key.Y = new BigInteger(p_parameters.Y);
+
             if (p_parameters.X != null && p_parameters.X.Length > 0)
             {
                 current_key.X = new BigInteger(p_parameters.X);
@@ -103,12 +101,12 @@ namespace P1ElGamal
             }
 
             ElGamalParameters elgamal_params = new ElGamalParameters();
-            // set the public values of the parameters
+            // set the public values
             elgamal_params.P = current_key.P.getBytes();
             elgamal_params.G = current_key.G.getBytes();
             elgamal_params.Y = current_key.Y.getBytes();
 
-            // if required, include the private value, X
+            //include the private value, X
             if (include_private_params)
             {
                 elgamal_params.X = current_key.X.getBytes();

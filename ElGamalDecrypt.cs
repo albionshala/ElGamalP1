@@ -26,9 +26,10 @@ namespace P1ElGamal
             BigInteger A = new BigInteger(a_bytes);
             BigInteger B = new BigInteger(b_bytes);
 
+            //c2 * c1 exp X mod p 
             BigInteger M = (B * A.modPow(current_key.X, current_key.P).modInverse(current_key.P)) % current_key.P;
 
-            // return the result - take care to ensure that we create a result which is the correct length
+            // return the result
             byte[] m_bytes = M.getBytes();
 
             if (m_bytes.Length < plaintext_blocksize)
