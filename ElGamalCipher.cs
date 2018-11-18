@@ -27,7 +27,7 @@ namespace P1ElGamal
             plaintext_blocksize = (elg_current_key.P.bitCount() - 1) / 8;
             ciphertext_blocksize = ((elg_current_key.P.bitCount() + 7) / 8) * 2; //ciphertext is twice as plaintext
 
-            // set the default block for plaintext
+            // set the default block for plaintext(original txt)
             block_size = plaintext_blocksize;
         }
 
