@@ -16,9 +16,10 @@ namespace P1ElGamal
             public byte[] Y;
             [NonSerialized] public byte[] X;
         } 
-
-        public abstract void ImportParameters(ElGamalParameters import_parameters); //METHOD: Import ElGamalParameters
-        public abstract ElGamalParameters ExportParameters(bool export_parameters); //METHOD: Export ElGamalParameter
+          //METHOD: Import ElGamalParameters
+        public abstract void ImportParameters(ElGamalParameters import_parameters);
+        //METHOD: Export ElGamalParameter
+        public abstract ElGamalParameters ExportParameters(bool export_parameters);
 
         public abstract byte[] EncryptData(byte[] _data);
         public abstract byte[] DecryptData(byte[] _data);
